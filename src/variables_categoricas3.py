@@ -13,11 +13,9 @@ dummy_city_tier = pd.get_dummies(df['City Tier'], prefix='City')
 # merge the new data with dataframe
 columns_names = df.columns.values.tolist()
 
-df_new = df[columns_names].join(dummy_gender)
+df_new = df[columns_names].join(dummy_gender).join(dummy_city_tier)
 columns_names = df_new.columns.values.tolist()
 
-df_new = df_new[columns_names].join(dummy_city_tier)
-columns_names = df_new.columns.values.tolist()
 
 feature_cols = ['Monthly Income', 'Transaction Time', 
 				'Gender_Female', 
@@ -44,14 +42,6 @@ for i,v in enumerate(feature_cols):
 df_new['prediction'] = lm.intercept_ + pre_resultado
 df_new['prediction2'] = lm.predict(pd.DataFrame(df_new[feature_cols]))
 
-
-SSD = np.sum((df_new['prediction'] - df_new['Total Spend'])**2)
-RSE = np.sqrt(SSD/(len(df_new)-len(feature_cols)-1))
-sales_mean = np.mean(df_new['Total Spend'])
-error = RSE/sales_mean
-
-print ("Error: {}".format(error*100))
-print ("RSE: +/- {}".format(RSE))
 
 SSD = np.sum((df_new['prediction2'] - df_new['Total Spend'])**2)
 RSE = np.sqrt(SSD/(len(df_new)-len(feature_cols)-1))
