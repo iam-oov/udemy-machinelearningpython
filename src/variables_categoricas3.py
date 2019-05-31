@@ -50,3 +50,5 @@ error = RSE/sales_mean
 
 print ("Error: {}".format(error*100))
 print ("RSE: +/- {}".format(RSE))
+
+# eliminar variables dummy redundantes
