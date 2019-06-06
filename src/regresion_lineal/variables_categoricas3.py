@@ -17,11 +17,13 @@ df_new = df[columns_names].join(dummy_gender).join(dummy_city_tier)
 columns_names = df_new.columns.values.tolist()
 
 
-feature_cols = ['Monthly Income', 'Transaction Time', 
-				'Gender_Female', 
-				'City_Tier 1', 
-				'Record'
-				]
+feature_cols = [
+	'Monthly Income', 
+	'Transaction Time', 
+	'Gender_Female', 
+	'City_Tier 1', 
+	'Record'
+]
 
 x = df_new[feature_cols]
 y = df_new['Total Spend']
@@ -32,13 +34,14 @@ lm.fit(x, y)
 intercept = lm.intercept_
 coef = lm.coef_
 
-print(lm.score(x,y))
-# El modelo puede ser escrito como:
+print(lm.score(x,y)) # r2
 
+# El modelo puede ser escrito como:
 pre_resultado = 0
 for i,v in enumerate(feature_cols):
 	pre_resultado +=  df_new[v] * coef[i]
 
+# prediction1 is equal to prediction2 just is a diferefente way to go at the result
 df_new['prediction'] = lm.intercept_ + pre_resultado
 df_new['prediction2'] = lm.predict(pd.DataFrame(df_new[feature_cols]))
 
